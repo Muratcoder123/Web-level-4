@@ -6,7 +6,7 @@ $(document).ready(function() {
 
           }
       } else {
-          $("#universityList").append("Can't load the list from url.");
+          alert("Can't load the Universities")
       }
   });
 });
