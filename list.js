@@ -1,17 +1,6 @@
 $(document).ready(function() {
-    $("#collapseButton").html("Universities in" + selectedOption);
-    var newUrl = "http://universities.hipolabs.com/search?country=" + selectedOption
-    $.get(newUrl,function(response, status) {
-        if(status == "success") {
-            $("#universityList").html("");
-            for (let index = 0; index < response.length; index++) {
-            $("#universityList").append(
-                `<a target="_blank" href="${response[index].web_pages[0]}"
-                 class="list-group-item list-group-item-action">${response[index].name}</a>`);
-            
-            }
-        }
-    });
+    $("#collapseButton").html("Universities in" + $("#traget"));
+    
 
   $("#target").change(function(){
 
