@@ -1,42 +1,34 @@
 $(document).ready(function() {
-    $("#collapseButton").html("Universities in" + $("#traget"));
-    
 
-  $("#target").change(function(){
+    setButtonText();
+    generateUniversitiesList(getSelectedValue());
 
-    var selectedOption = $('#target').find(":selected").val();
-    var selectedOption = $('#target').find(":selected").text();
-    $("#collapseButton").html("Universities in" + selectedOption);
-    var newUrl = "http://universities.hipolabs.com/search?country=" + selectedOption
-    $.get(newUrl,function(response, status) {
-        if(status == "success") {
-            $("#universityList").html("");
-            for (let index = 0; index < response.length; index++) {
-            $("#universityList").append(
-                `<a target="_blank" href="${response[index].web_pages[0]}"
-                 class="list-group-item list-group-item-action">${response[index].name}</a>`);
-            
-            }
-        }
+    $("#target").change(function() {
+        setButtonText();
+        generateUniversitiesList(getSelectedValue());
+
     });
-  });
 
-  $("#target").change(function(e){
-    var selectedOption = $("option:selected", this);
-    var valueSelected = this.value;
-    $("#collapsedButton").html(Universities)
-  });
+    function getSelectedValue() {
+        return $('#target').find(":selected").val();
+    }
 
-   $.get("http://universities.hipolabs.com/search?country=&quot;" + selectedCountryValue , function(response, status) {
-      if (status == "success" && data != null && data != undefined) {
-          for (let index = 0; index < data.length; index++) {
-              $("#universityList").append(`<a target="_blank" href="${data[index].web_pages[0]}" class="list-group-item list-group-item-action">${data[index].name}</a>`);
+    function setButtonText() {
+        $("#collapseButton").html("Universities in " + $('#target').find(":selected").text());
+    }
 
-          }
-      } else {
-          alert("Can't load the Universities")
-      }
-  });
+    function generateUniversitiesList(country) {
+        var urlLink = "http://universities.hipolabs.com/search?country=" + country;
+        $.get(urlLink, function(data, status) {
+            if (status == "success" && data != null && data != undefined) {
+                $("#universityList").html('');
+                for (let index = 0; index < data.length; index++) {
+                    $("#universityList").append(`<a target="_blank" href="${data[index].web_pages[0]}" class="list-group-item list-group-item-action">${data[index].name}</a>`);
 
-
+                }
+            } else {
+                $("#universityList").append("Can't load the list from url.");
+            }
+        });
+    }
 });
